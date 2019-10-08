@@ -27,21 +27,23 @@ This is the <b>Show your emotions with Rekognition</b> repository for the NAB x 
 ## Pre-requisites
  - AWS account (admin role recommended)
  - Cloud9 IDE 
-    - Login into AWS Management Console, type "cloud9" into the search bar and enter
+    - Login into the [AWS Management Console](https://console.aws.amazon.com/console/home), type "cloud9" into the search bar and enter
     - Switch region to Singapore (any available Cloud9 region will work, but closest region will reduce latency of the IDE). You can switch your region at the top right corner once you are in the console.
     - Hit "Create environment" button
-    - Choose the name and hit "Next step"
-    - Choose "Create a new instance for environment (EC2)" --> t2.micro --> Amazon Linux --> Leave everything else default --> "Next step" --> "Create environment"
+    - Choose a name (e.g. myCloud9Env) and hit "Next step"
+    - Choose "Create a new instance for environment (EC2)" --> t2.micro --> Amazon Linux --> Leave everything else as default --> "Next step" --> "Create environment"
     - Now wait for the IDE to be initialized
 
 ## Workshop diagram (step 1 to 4)
 ![Diagram](https://github.com/melbourne-cloudtools-meetup/show-your-emotions-with-rekognition/blob/ALL_STEPS/repoImages/Simple_Steps.png?raw=true)
 ## Step 1 - Basic preparation
- - Install dependencies. The libraries we need are included in setup.sh. Run it to install.
+Now we're going to run the following commands below in the bash console at the bottom of the Cloud9 IDE.
 
- - Create an AWS S3 bucket to store the image to be used in next steps. This bucket is also used to store processed image and enable a signed URL to allow temporary access to the image from a user who doesn't have AWS credentials. 
+ - Install our dependencies. The libraries we need are included in setup.sh. Run it to install.
 
- - Create a Rekognition collection to store the facial signature. A facial signature consists of feature vectors sampled by AWS Rekognition service from input image frame and this metadata can be used for matching faces and emotioanl analysis. AWS Rekognition service groups the signatures about objects including faces into collections. 
+ - Create an AWS S3 bucket to store the image to be used in next steps. This bucket is also used to store processed image and enable a presigned URL to allow temporary access to the image from a user who doesn't have AWS credentials. 
+
+ - Create a Rekognition collection to store the facial signature. A facial signature consists of feature vectors sampled by AWS Rekognition service from input image frame and this metadata can be used for matching faces and emotional analysis. AWS Rekognition service groups the signatures about objects including faces into collections. 
     ```bash
     # Clone the github repo
 
@@ -56,11 +58,11 @@ This is the <b>Show your emotions with Rekognition</b> repository for the NAB x 
 
     ./setup.sh
 
-    # Create your s3 buckets using command below, pick a globally unique bucket name. 
+    # Create your 33 buckets using the command below, pick a globally unique bucket name. 
     # These bucket name will be used in next steps. Name can be a mixture of lowercase letters and numbers.
     # If successful, console will prompt: "make_bucket:<your bucket name>" e.g. aws s3 mb s3://rekognition-workshop-simon
-    # Use command  'aws s3 ls' to verify the creation of bucket
-
+    # Use command  'aws s3 ls' to find and verify the creation of bucket
+    
     aws s3 mb s3://<your_raw_images_bucket_name>
     aws s3 mb s3://<your_processed_images__bucket_name>
 
@@ -74,10 +76,7 @@ This is the <b>Show your emotions with Rekognition</b> repository for the NAB x 
 
 ## Step 2 - Upload an image to S3 bucket
  - Ready a photo and save it onto your local machine, make sure there is at least one face in it. AWS Rekognition service can index up to 100 faces at once, here we keep it simple by letting Rekognition index the one prominent face. More details shown in step 3.
-   - You can try this with any image you want but here are some sample images
-   - [Bernie Sanders](https://upload.wikimedia.org/wikipedia/commons/d/de/Bernie_Sanders.jpg)
-   - [Kanye West](https://www.biography.com/.image/t_share/MTU0OTkwNDUxOTQ5MDUzNDQ3/kanye-west-attends-the-christian-dior-show-as-part-of-the-paris-fashion-week-womenswear-fall-winter-2015-2016-on-march-6-2015-in-paris-france-photo-by-dominique-charriau-wireimage-square.jpg)
-   - [Keanu Reeves](https://ca-times.brightspotcdn.com/dims4/default/f68293b/2147483647/strip/true/crop/2048x1152+0+0/resize/840x473!/quality/90/?url=https%3A%2F%2Fca-times.brightspotcdn.com%2Fca%2Fe1%2F1cce3965c9a2b4f20aed93bd0b90%2Fla-1560957011-xf3aqvrdf1-snap-image)
+   - You can try this with any image you want but there are some sample images in the folder "sampleImages". If you use these, make sure you drag the images out to where your .py files reside (as below)
   
  - Upload it to your Cloud9 IDE working directory: same directory where .py files resides
 
@@ -248,4 +247,6 @@ This XML file does not appear to have any style information associated with it. 
   This line should write the main facial emotion onto the image while processing, however, it doesn't work. See if you can fix it!
 
 ## FAQ
-
+ - Q: Nothing is changing when I make a change in the Cloud9 IDE?
+    - A: Auto save isn't actually enabled by default so make sure to manually save after writing up the commands.
+ -
