@@ -157,7 +157,7 @@ This XML file does not appear to have any style information associated with it. 
 ## Step 5 - Go serverless: create a Lambda function
 ![Diagram](https://github.com/melbourne-cloudtools-meetup/show-your-emotions-with-rekognition/blob/ALL_STEPS/repoImages/Lambda.png?raw=true)
  - We ran index.py in the previous step but we do not want to do this manually every time we upload a new photo to the S3 bucket.
- - Instead we will create a lambda function so that S3 will trigger the whole process automatically whenever we upload a an image to S3
+ - Instead we will create a Lambda function so that S3 will trigger the whole process automatically whenever we upload a an image to S3
  - AWS Lambda lets you run code without provisioning or managing servers. You pay only for the compute time you consume - there is no charge when your code is not running.
 
     - Lambda features:
@@ -172,7 +172,7 @@ This XML file does not appear to have any style information associated with it. 
 
     - Step 1 - Setup IAM role 
         - Go to the IAM dashboard by clicking Service the topleft corner and type in "IAM" and enter
-        - Choose "Roles" --> "Create role" --> "AWS service" --> "Lambda" --> "Lambda" --> "Select your use case - lambda" --> "Next: Permission" --> "Create policy" --> Check "AmazonS3FullAccess" and "AmazonRekognitionFullAccess" --> "Next: Tags" --> "Next: Review" --> type a name into "Role name" --> "Create role"
+        - Choose "Roles" --> "Create role" --> "AWS service" --> "Lambda" --> "Lambda" --> "Select your use case - Lambda" --> "Next: Permission" --> "Create policy" --> Check "AmazonS3FullAccess" and "AmazonRekognitionFullAccess" --> "Next: Tags" --> "Next: Review" --> type a name into "Role name" --> "Create role"
 
     - Step 2 - Create a Lambda function
         - Open aws management console, type "lambda" into the "Find Service" search bar and enter
@@ -181,14 +181,14 @@ This XML file does not appear to have any style information associated with it. 
         - Choose Python 3.6 for Runtime
         - Choose "Use an existing role" then choose the IAM role created from last step
 
-    - Step 3 - Add a event trigger to this lambda function following last step
+    - Step 3 - Add a event trigger to this Lambda function following last step
         - Hit "+ Add trigger" button then select "S3"
         - Choose the bucket that has just been created and select "All object ctreate events" for Event type.
         - Check "Enable trigger" and hit "Add" button
         - Hit "Functions" at the topleft corner of the refreshed page
 
     - Step 4 - Edit the Lambda function
-        - Choose the lambda function from last step
+        - Choose the Lambda function from last step
         - Edit lambda_handler.py with some variable names changed (the file in the repo)
         - Scroll down to "Function code" area and replace the code in editor with the modified code in lambda_handler.py
         - Change "Timeout" to 10 sec in Basic setting section
@@ -205,7 +205,7 @@ This XML file does not appear to have any style information associated with it. 
             PROCESSED_BUCKET = "rekognition-workshop-processed"
             ```
 
-        - Note: the library cv2 used in this lambda function is not native to aws lambda runtime environment. So we need to set it up here. 
+        - Note: the library cv2 used in this Lambda function is not native to AWS Lambda runtime environment. So we need to set it up here. 
         - In Cloud9 terminal, run: 
             ```bash
             # Create a .zip file contains the package we need 
@@ -213,7 +213,7 @@ This XML file does not appear to have any style information associated with it. 
             docker run --rm -v $(pwd):/package tiivik/lambdazipper opencv-python 
             sudo zip -r9 opencv-python.zip lambda_handler.py
 
-            # Update the lambda function we created
+            # Update the Lambda function we created
 
             aws lambda update-function-code --function-name <your_lambda_function_name> --zip-file fileb://opencv-python.zip
             ```
@@ -228,7 +228,7 @@ This XML file does not appear to have any style information associated with it. 
             sudo zip -r9 opencv-python.zip lambda_handler.py
             aws lambda update-function-code --function-name <your_lambda_function_name> --zip-file fileb://opencv-python.zip
             ```
-    - Step 6 - Trigger the lambda
+    - Step 6 - Trigger the Lambda
     
         - Now we are ready to trigger the lambda function
         - Use command below:
