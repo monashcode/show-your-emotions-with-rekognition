@@ -234,3 +234,5 @@ This XML file does not appear to have any style information associated with it. 
   ```
   This line should write the main facial emotion onto the image while processing, however, it doesn't work. See if you can fix it!
 
+## FAQ
+
