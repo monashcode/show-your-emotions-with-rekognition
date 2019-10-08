@@ -1,9 +1,9 @@
 # Getting Started: Show your emotions with AWS Rekognition
 ![Diagram](https://github.com/melbourne-cloudtools-meetup/show-your-emotions-with-rekognition/blob/ALL_STEPS/repoImages/Banner.png?raw=true)
 ### What is this?
-This is the <b>Show your emotions with Rekognition</b> repository as part of the event organised by the [Melbourne AWS Programming and Tools Meetup](https://www.meetup.com/Melbourne-AWS-Programming-and-Tools-Meetup/events/261692367/).
+This is the <b>Show your emotions with Rekognition</b> repository for the NAB x MAC x diversIT event.
 
- - This repository contains instructions and code to build your first AWS Rekognition application with python and Cloud9 IDE hosted on AWS. 
+ - This repository contains instructions and code to build your first AWS Rekognition application with Python and Cloud9 IDE hosted on AWS. 
  - It is split up into 5 Steps, each containing instructions to get your first Rekognition project to work. 
  - Step 5 is the option to go serverless via putting code into a AWS Lambda function which is triggered by S3 events. 
 ### What is Rekognition?
@@ -14,13 +14,21 @@ This is the <b>Show your emotions with Rekognition</b> repository as part of the
 
 #### Other AWS services involved in this workshop
  - S3 - https://aws.amazon.com/s3/
+    - Amazon Simple Storage Service (S3) lets you store objects and is where you'll be storing the images and other files in this workshop.
  - Cloud9 - https://aws.amazon.com/cloud9/
+    - AWS Cloud9 is a cloud-based IDE that lets you write, run and debug your code with just a browser.
+    - It includes a code editor, debugger and terminal.
+    - It comes prepackaged with essential tools for popular programming languages and AWS so you don't have to install files or configure your machine to start new projects.
  - Lambda - https://aws.amazon.com/lambda/   (Workshop option, refer Step 5 below)
+    - AWS Lambda lets you run code without provisioning or managing servers
+    - You only pay for the compute time you consume so there is no charge when your code is not running
+    - Not having to worry about server administration (patching, scalability, security) has led to the trend of serverless computing 
+    
 ## Pre-requisites
  - AWS account (admin role recommended)
  - Cloud9 IDE 
-    - Login into aws management console, type "cloud9" into the search bar and enter
-    - Switch region to Singapore (any available Cloud9 region will work, but closest region will reduce latency of the IDE)
+    - Login into AWS Management Console, type "cloud9" into the search bar and enter
+    - Switch region to Singapore (any available Cloud9 region will work, but closest region will reduce latency of the IDE). You can switch your region at the top right corner once you are in the console.
     - Hit "Create environment" button
     - Choose the name and hit "Next step"
     - Choose "Create a new instance for environment (EC2)" --> t2.micro --> Amazon Linux --> Leave everything else default --> "Next step" --> "Create environment"
@@ -29,15 +37,15 @@ This is the <b>Show your emotions with Rekognition</b> repository as part of the
 ## Workshop diagram (step 1 to 4)
 ![Diagram](https://github.com/melbourne-cloudtools-meetup/show-your-emotions-with-rekognition/blob/ALL_STEPS/repoImages/Simple_Steps.png?raw=true)
 ## Step 1 - Basic preparation
- - Install dependencies. Libraries we need are included in setup.sh. Run it to install.
+ - Install dependencies. The libraries we need are included in setup.sh. Run it to install.
 
- - Create an aws S3 bucket to store the image to be used in next steps. This bucket is also used to store processed image and enable a signed url to allow temporary access to the image from a user who doesn't have aws credentials. 
+ - Create an AWS S3 bucket to store the image to be used in next steps. This bucket is also used to store processed image and enable a signed URL to allow temporary access to the image from a user who doesn't have AWS credentials. 
 
- - Create a rekognition collection to store the facial signature. A facial signature consists of feature vectors sampled by aws rekognition service from input image frame and this metadata can be used for matching faces and emotioanl analysis. AWS rekognition service groups the signatures about objects including faces into collections. 
+ - Create a Rekognition collection to store the facial signature. A facial signature consists of feature vectors sampled by AWS Rekognition service from input image frame and this metadata can be used for matching faces and emotioanl analysis. AWS Rekognition service groups the signatures about objects including faces into collections. 
     ```bash
     # Clone the github repo
 
-    git clone <repo>
+    git clone https://github.com/monashcode/show-your-emotions-with-rekognition.git
     
     # Change directory to the cloned repository
     
@@ -65,8 +73,12 @@ This is the <b>Show your emotions with Rekognition</b> repository as part of the
     ```
 
 ## Step 2 - Upload an image to S3 bucket
- - Ready a photo and save it onto your local machine, make sure there is at least one face in it. AWS Rekognition service can index up to 100 faces at once, here we keep it simple by letting rekognition index the one prominent face. Detail shown in step 3.
-
+ - Ready a photo and save it onto your local machine, make sure there is at least one face in it. AWS Rekognition service can index up to 100 faces at once, here we keep it simple by letting Rekognition index the one prominent face. More details shown in step 3.
+   - You can try this with any image you want but here are some sample images
+   - [Bernie Sanders](https://upload.wikimedia.org/wikipedia/commons/d/de/Bernie_Sanders.jpg)
+   - [Kanye West](https://www.biography.com/.image/t_share/MTU0OTkwNDUxOTQ5MDUzNDQ3/kanye-west-attends-the-christian-dior-show-as-part-of-the-paris-fashion-week-womenswear-fall-winter-2015-2016-on-march-6-2015-in-paris-france-photo-by-dominique-charriau-wireimage-square.jpg)
+   - [Keanu Reeves](https://ca-times.brightspotcdn.com/dims4/default/f68293b/2147483647/strip/true/crop/2048x1152+0+0/resize/840x473!/quality/90/?url=https%3A%2F%2Fca-times.brightspotcdn.com%2Fca%2Fe1%2F1cce3965c9a2b4f20aed93bd0b90%2Fla-1560957011-xf3aqvrdf1-snap-image)
+  
  - Upload it to your Cloud9 IDE working directory: same directory where .py files resides
 
  - In case the Cloud9 'Upload Local Files" doesn't work, follow the steps below:
@@ -99,10 +111,10 @@ This is the <b>Show your emotions with Rekognition</b> repository as part of the
 ## Step 3 - Use the main function to index the image to Rekognition 
  - Modify the variable names in index.py according to the comments
 
- - It performs tasks below sequentially: 
-    - Indexing the face to AWS Rekognition service 
+ - Our code will perform the tasks below sequentially: 
+    - Index the face to AWS Rekognition service 
     - Process the metadata received from Rekognition service 
-    - Print the resulsts of facial analysis to the console
+    - Print the results of facial analysis to the console
     - Put a bounding box around the face on the image 
     - Send the image to the s3 processed images bucket 
 
@@ -111,7 +123,7 @@ This is the <b>Show your emotions with Rekognition</b> repository as part of the
     python3 index.py
     ```
 
-## Step 4 - Generate a signed url for users without aws credentials to temporarily access the image
+## Step 4 - Generate a signed url for users without AWS credentials to temporarily access the image
 - By default, all objects uploaded to S3 are private. In order to allow public access, the object's permissions need to be altered. This can be done by altering the Bucket or Object policies, or by creating a temporary URL that allows access. 
 
 - Attempt to access the object by the direct URL (can be located in the object screen in the S3 console). Observe that the image is not accessible directly.
@@ -142,26 +154,27 @@ This XML file does not appear to have any style information associated with it. 
     ```
  - Copy the url prompted on console and paste it to your browser
 
-## Step 5 (workshop option) - Go serverless: create a lambda function
+## Step 5 - Go serverless: create a Lambda function
 ![Diagram](https://github.com/melbourne-cloudtools-meetup/show-your-emotions-with-rekognition/blob/ALL_STEPS/repoImages/Lambda.png?raw=true)
- - We ran index.py in the previous step but we do not want to do it every time we upload a new photo to the S3 bucket. Instead we will create a lambda function so that S3 will trigger the whole process automatically whenever we upload a an image to S3
+ - We ran index.py in the previous step but we do not want to do this manually every time we upload a new photo to the S3 bucket.
+ - Instead we will create a lambda function so that S3 will trigger the whole process automatically whenever we upload a an image to S3
  - AWS Lambda lets you run code without provisioning or managing servers. You pay only for the compute time you consume - there is no charge when your code is not running.
 
     - Lambda features:
         - No server to manage
             - AWS Lambda automatically runs your code without requiring you to provision or manage servers. Just write the code and upload it to Lambda
-        - Continous scaling
+        - Continuous scaling
             - AWS Lambda automatically scales your application by running code in response to each trigger. Your code runs in parallel and processes each trigger individually, scaling precisely with the size of the workload
         - Subsecond metering 
             - With AWS Lambda, you are charged for every 100ms your code executes and the number of times your code is triggered. You don't pay anything when your code isn't running
 
- - Follow steps below to create a lambda function:
+ - Follow steps below to create a Lambda function:
 
-    - Step 1 - Steup IAM role 
+    - Step 1 - Setup IAM role 
         - Go to the IAM dashboard by clicking Service the topleft corner and type in "IAM" and enter
         - Choose "Roles" --> "Create role" --> "AWS service" --> "Lambda" --> "Lambda" --> "Select your use case - lambda" --> "Next: Permission" --> "Create policy" --> Check "AmazonS3FullAccess" and "AmazonRekognitionFullAccess" --> "Next: Tags" --> "Next: Review" --> type a name into "Role name" --> "Create role"
 
-    - Step 2 - Create a lambda function
+    - Step 2 - Create a Lambda function
         - Open aws management console, type "lambda" into the "Find Service" search bar and enter
         - Hit "Create function" then check "Author from scratch"
         - Enter a name for "Function name"
@@ -174,14 +187,14 @@ This XML file does not appear to have any style information associated with it. 
         - Check "Enable trigger" and hit "Add" button
         - Hit "Functions" at the topleft corner of the refreshed page
 
-    - Step 4 - Edit the lambda function
+    - Step 4 - Edit the Lambda function
         - Choose the lambda function from last step
         - Edit lambda_handler.py with some variable names changed (the file in the repo)
         - Scroll down to "Function code" area and replace the code in editor with the modified code in lambda_handler.py
         - Change "Timeout" to 10 sec in Basic setting section
         - Hit "Save" at topright corner
 
-    - Step 5 - Setup environment for lambda
+    - Step 5 - Setup environment for Lambda
     
         - IMPORTANT: Ensure the PROCESSED_BUCKET variable is set to the processed images bucket set up in Step 1
           - Ensure the processed bucket name is different to the raw images bucket name
@@ -193,7 +206,7 @@ This XML file does not appear to have any style information associated with it. 
             ```
 
         - Note: the library cv2 used in this lambda function is not native to aws lambda runtime environment. So we need to set it up here. 
-        - In Cloud9 termianl, run: 
+        - In Cloud9 terminal, run: 
             ```bash
             # Create a .zip file contains the package we need 
 
@@ -210,7 +223,7 @@ This XML file does not appear to have any style information associated with it. 
             - change variable names follow the comments
         - Then in Cloud9 termianl, run: 
             ```bash
-            # Update the lambda function
+            # Update the Lambda function
 
             sudo zip -r9 opencv-python.zip lambda_handler.py
             aws lambda update-function-code --function-name <your_lambda_function_name> --zip-file fileb://opencv-python.zip
