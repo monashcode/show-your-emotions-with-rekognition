@@ -190,14 +190,12 @@ This XML file does not appear to have any style information associated with it. 
         - Hit "Functions" at the topleft corner of the refreshed page
 
     - Step 4 - Edit the Lambda function
-        - Click on the Lambda function and scroll down to see the Function code
-        - Over in the Cloud9 IDE, edit lambda_handler.py and fill in the variable names
-        - Replace the default code in the Lambda function with the modified code in lambda_handler.py (in your Cloud9 IDE)
+        - Click on the Lambda function
         - Change "Timeout" to 10 sec in the Basic settings section below
         - Hit "Save" at the top right corner
 
     - Step 5 - Setup environment for Lambda
-    
+        - Over in the Cloud9 IDE, edit lambda_handler.py and fill in the variable names
         - IMPORTANT: Ensure the PROCESSED_BUCKET variable is set to the processed images bucket set up in Step 1
           - Ensure the processed bucket name is different to the raw images bucket name
             ```
@@ -223,7 +221,7 @@ This XML file does not appear to have any style information associated with it. 
         - Change "memory" to 512 mb in Basic setting section
         - Edit lambda_handler.py in Cloud9:
             - change variable names follow the comments
-        - Then in Cloud9 termianl, run: 
+        - Then in Cloud9 terminal, run: 
             ```bash
             # Update the Lambda function
 
@@ -241,6 +239,8 @@ This XML file does not appear to have any style information associated with it. 
             python3 upload_to_s3.py -i <image_name> -b <bucket_name>
             ```
     - Step 7 - Open the S3 bucket, there should be a lambda-processed image with the name you decided. Open the image file and see how it looks. 
+    - End result: When you now upload an image to your S3 bucket, Lambda automatically triggers and runs the specified code (from lambda_handler.py) to take the image metadata and place the processed image in your processed images S3 bucket.
+       - Have a look at your processed images bucket to see an image starting with "lambda-processed-" + your raw images name
     
 ## Step 6 (extra credit!) Mark-up the image with the emotion meta-data
   Open lambda_handler.py in the IDE. Find the following commented out line.
