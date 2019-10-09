@@ -22,8 +22,8 @@ if __name__=='__main__':
         CollectionId = COLLECTION,
         Image = {
             'S3Object': {
-                'Bucket': BUCKET,
-                'Name': IMAGE,
+                'Bucket': RAW_IMAGES_BUCKET,
+                'Name': RAW_IMAGE_NAME,
             }
         },
         DetectionAttributes = ['ALL'],
@@ -61,7 +61,7 @@ if __name__=='__main__':
     print("Emotion: " + str(emotion))
 
     # Get the image W x H 
-    img = cv2.imread(IMAGE,1)
+    img = cv2.imread(RAW_IMAGE_NAME, 1)
     imgHeight, imgWidth, channels= img.shape
 
     # Get bounding box values and turn it into drawing coordinates
