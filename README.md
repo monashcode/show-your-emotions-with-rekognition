@@ -122,6 +122,7 @@ Now we're going to run the following commands below in the bash console at the b
     ```bash
     python3 index.py
     ```
+    
 
 ## Step 4 - Generate a presigned url for users without AWS credentials to temporarily access the image
 - By default, all objects uploaded to S3 are private. In order to allow public access, the object's permissions need to be altered. This can be done by altering the Bucket or Object policies, or by creating a temporary URL that allows access (aka presigned URL). 
