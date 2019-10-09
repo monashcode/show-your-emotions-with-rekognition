@@ -152,7 +152,7 @@ This XML file does not appear to have any style information associated with it. 
     ```bash
     # Parameter -i followed by name of the processed image and -b followed by the processed images S3 bucket name are required
 
-    python3 url_gen.py -i <image_name> -b <processed_bucket_name>
+    python3 url_gen.py -i <processed_image_name> -b <processed_bucket_name>
     ```
  - Copy the URL prompted on console and paste it to your browser/send it to others
 
