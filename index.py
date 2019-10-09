@@ -71,6 +71,8 @@ if __name__=='__main__':
 
     # Draw on the image
     cv2.rectangle(img, (left, top), (width, height), (0, 255, 0), 2)
+    summaryStr = "Smile: " + str(smile) + " | Gender: " + str(gender) + " | Age between: " + str(agelow) + " to " + str(agehigh) + " | Emotion: " + str(emotion)
+    cv2.putText(img, summaryStr, (50, 50), cv2.FONT_HERSHEY_PLAIN , 1.1, (0, 255, 0), 2, cv2.LINE_AA)
 
     # Save this image and send it to s3
     cv2.imwrite(PROCESSED_IMAGE, img)
