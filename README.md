@@ -152,7 +152,7 @@ This XML file does not appear to have any style information associated with it. 
     ```bash
     # Parameter -i followed by name of the processed image and -b followed by the processed images S3 bucket name are required
 
-    python3 url_gen.py -i <image_name> -b <processed_bucket_name>
+    python3 url_gen.py -i <processed_image_name> -b <processed_bucket_name>
     ```
  - Copy the URL prompted on console and paste it to your browser/send it to others
 
@@ -178,7 +178,7 @@ This XML file does not appear to have any style information associated with it. 
 
     - Step 2 - Create a Lambda function
         - Open AWS Management console, type "lambda" into the "Find Service" search bar and enter
-        - Make sure you are in the same region as 
+        - Make sure you are in the same region as before (Singapore)
         - Hit "Create function" then check "Author from scratch"
         - Enter a name for "Function name" (e.g. RekognitionS3Function)
         - Choose Python 3.6 for Runtime
