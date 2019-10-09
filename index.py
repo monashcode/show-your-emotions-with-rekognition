@@ -77,5 +77,5 @@ if __name__=='__main__':
     cv2.putText(img, summaryStr, (50, 50), cv2.FONT_HERSHEY_PLAIN , 1.1, (0, 255, 0), 2, cv2.LINE_AA)
 
     # Save this image and send it to s3
-    cv2.imwrite(PROCESSED_IMAGE, img)
-    s3.meta.client.upload_file(PROCESSED_IMAGE, PROCESSED_IMAGES_BUCKET, PROCESSED_IMAGE)
+    cv2.imwrite(PROCESSED_IMAGE_NAME, img)
+    s3.meta.client.upload_file(PROCESSED_IMAGE_NAME, PROCESSED_IMAGES_BUCKET, PROCESSED_IMAGE_NAME)
