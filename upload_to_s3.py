@@ -2,7 +2,7 @@
 import argparse
 import boto3
 
-# Modify varible names here
+# No need to modify here (unless stuff doesn't work)
 BUCKET = ""
 IMAGE = ""
 

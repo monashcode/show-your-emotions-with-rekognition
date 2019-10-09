@@ -6,8 +6,10 @@ import boto3
 RAW_IMAGES_BUCKET = "<YOUR_RAW_IMAGES_S3_BUCKET>"                   # e.g. myrawimages12345
 RAW_IMAGE_NAME = "<YOUR_IMAGE>"                                     # e.g. raw_image.jpg
 COLLECTION = "<YOUR_REKOGNITION_COLLECTION>"                        # e.g. rekognition-workshop
-PROCESSED_IMAGE_NAME = "<YOUR_PROCESSED_IMAGE_NAME>"                # e.g. processed_image.jpg
 PROCESSED_IMAGES_BUCKET = "<YOUR_PROCESSED_IMAGES_S3_BUCKET>"       # e.g. myprocessedimages12345
+
+# Name the processed image by appending processed
+PROCESSED_IMAGE_NAME = "processed-" + RAW_IMAGE_NAME                
 
 if __name__=='__main__':
 
