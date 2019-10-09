@@ -115,6 +115,7 @@ Now we're going to run the following commands below in the bash console at the b
     - Process the metadata received from Rekognition service 
     - Print the results of facial analysis to the console
     - Put a bounding box around the face on the image 
+    - Writes the main facial emotion onto the image while processing
     - Send the image to the s3 processed images bucket 
 
  - Save the file and run it
@@ -242,13 +243,6 @@ This XML file does not appear to have any style information associated with it. 
     - End result: When you now upload an image to your S3 bucket, Lambda automatically triggers and runs the specified code (from lambda_handler.py) to take the image metadata and place the processed image in your processed images S3 bucket.
        - Have a look at your processed images bucket to see an image starting with "lambda-processed-" + your raw images name
     
-## Step 6 (extra credit!) Mark-up the image with the emotion meta-data
-  Open lambda_handler.py in the IDE. Find the following commented out line.
-  ```
-  # cv2.putText(img, str(emotion), (50, 50), FONT, 1, (0, 255, 0), 2, cv2.LINE_AA)
-  ```
-  This line should write the main facial emotion onto the image while processing, however, it doesn't work. See if you can fix it!
-
 ## FAQ
  - Q: Nothing is changing when I make a change in the Cloud9 IDE?
     - A: Auto save isn't actually enabled by default so make sure to manually save after writing up the commands.
