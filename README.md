@@ -242,7 +242,14 @@ This XML file does not appear to have any style information associated with it. 
     - Step 7 - Open the S3 bucket, there should be a lambda-processed image with the name you decided. Open the image file and see how it looks. 
     - End result: When you now upload an image to your S3 bucket, Lambda automatically triggers and runs the specified code (from lambda_handler.py) to take the image metadata and place the processed image in your processed images S3 bucket.
        - Have a look at your processed images bucket to see an image starting with "lambda-processed-" + your raw images name
-    
+
+## Cleanup (SUPER IMPORTANT!)
+ - Now that you're finished, feel free to go ahead and ensure that...
+   - Your Cloud9 environments are deleted
+   - Your S3 buckets are deleted (and all objects in it)
+   - Your Lambda functions are deleted
+ - Note: NAB nor MAC nor diversIT are liable for any costs incurred as a result of not deleting these resources 
+
 ## FAQ
  - Q: Nothing is changing when I make a change in the Cloud9 IDE?
     - A: Auto save isn't actually enabled by default so make sure to manually save after writing up the commands.
