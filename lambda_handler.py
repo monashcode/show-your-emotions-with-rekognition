@@ -6,11 +6,11 @@ def lambda_handler(event, context):
     # Fetch event trigger information
     BUCKET = event['Records'][0]['s3']['bucket']['name']
     IMAGE = event['Records'][0]['s3']['object']['key']
-    PROCESSED_BUCKET = "<YOUR_PROCESSED_BUCKET>" # e.g. rekognition-workshop-processed
+    PROCESSED_IMAGE = "lambda-processed-" + IMAGE    
     
-    # Modify variable names here
-    COLLECTION = "<your_collection>" # e.g. rekognition-workshop-simon
-    PROCESSED_IMAGE = "<you_name_the_processed_image>" # e.g. processed_image.jpg
+    # MODIFY VARIABLE NAMES HERE
+    COLLECTION = "<YOUR_REKOGNITION_COLLECTION>"                    # e.g. rekognition-workshop-simon                  
+    PROCESSED_BUCKET = "<YOUR_PROCESSED_BUCKET>"                    # e.g. rekognition-workshop-processed
     
     # Create an s3 client 's3' and then send this image to the s3 bucket
     s3 = boto3.resource('s3')
@@ -67,13 +67,14 @@ def lambda_handler(event, context):
     imgHeight, imgWidth, channels = img.shape
 
     # Draw on the image 
+    summaryStr = "Smile: " + str(smile) + " | Gender: " + str(gender) + " | Age between: " + str(agelow) + " to " + str(agehigh) + " | Emotion: " + str(emotion)
     box = info['BoundingBox']
     left = int(imgWidth * box['Left'])
     top = int(imgHeight * box['Top'])
     width = int(imgWidth * box['Width']) + left
     height = int(imgHeight * box['Height']) + top
     cv2.rectangle(img, (left, top), (width, height), (0, 255, 0), 2)
-    # cv2.putText(img, str(emotion), (50, 50), FONT, 1, (0, 255, 0), 2, cv2.LINE_AA)
+    cv2.putText(img, summaryStr, (50, 50), cv2.FONT_HERSHEY_PLAIN , 1.1, (0, 255, 0), 2, cv2.LINE_AA)
     
     # Save this image and send it to s3
     tempPath = "/tmp/" + PROCESSED_IMAGE
